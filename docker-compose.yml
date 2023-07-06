@@ -1,0 +1,18 @@
+version: '3.8' # ça se perd
+
+# liste des conteneurs
+services:
+  # mon premier services
+  myflaskapp:
+    image: my_python_app
+    ports:
+      - 5000:5000
+    depends_on: 
+      - mymongodb
+
+
+  # seconde service
+  mymongodb:
+    image: mongo
+    ports:
+      - 27017:27017
