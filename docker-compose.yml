@@ -1,20 +1,41 @@
-version: '3.8' # ça se perd
+version: '3.3' # ça se perd
 
 # liste des conteneurs
 services:
-  # mon premier services
+  # mon premier service
   myflaskapp:
     build:
       context: .
       dockerfile: Dockerfile
+    command: python ./app.py
+    environment:
+      MONGODB_HOSTNAME: mymongodb
     ports:
       - 5000:5000
     depends_on: 
       - mymongodb
 
-
-  # seconde service
+  # second service
   mymongodb:
     image: mongo
+    restart: always
     ports:
       - 27017:27017
+    volumes:
+      - usersdata:/data/db/
+
+  # troisième service
+  mymongoexpress:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mymongodb
+    depends_on:
+      - mymongodb
+
+# volume partagé
+volumes:
+  usersdata:
+    driver: local
