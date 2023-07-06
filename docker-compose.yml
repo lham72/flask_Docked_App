@@ -4,7 +4,9 @@ version: '3.8' # ça se perd
 services:
   # mon premier services
   myflaskapp:
-    image: my_python_app
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
     depends_on: 
